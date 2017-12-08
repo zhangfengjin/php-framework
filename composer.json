@@ -1,0 +1,23 @@
+{
+  "name": "php-framework/php-framework",
+  "type": "library",
+  "description": "php framework",
+  "keywords": [
+    "framework",
+    "php-framework"
+  ],
+  "authors": [
+    {
+      "name": "zhangfengjin",
+      "email": "793665131@qq.com"
+    }
+  ],
+  "require": {
+    "predis/predis": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "XYLibrary\\": "src/"
+    }
+  }
+}
