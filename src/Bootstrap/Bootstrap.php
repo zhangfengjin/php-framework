@@ -7,9 +7,6 @@
 
 namespace XYLibrary\Bootstrap;
 
-
-use XYLibrary\Cache\CacheManager;
-use XYLibrary\Cache\Connectors\RedisConnector;
 use XYLibrary\Exception\ExceptionHandler;
 use XYLibrary\Facade\Facade;
 use XYLibrary\IoC\Container;
@@ -21,7 +18,6 @@ class Bootstrap
 
     public function __construct()
     {
-        
         $this->app = new Container();
         Facade::setFacadeApplication($this->app);
     }
@@ -43,7 +39,6 @@ class Bootstrap
         $this->registerException();
         $this->registerConfig();
         $this->registerRedis();
-        $this->registerCache();
     }
 
     /**
@@ -89,20 +84,6 @@ class Bootstrap
         $this->app->bind("redis", function ($app) {
             $config = $app["config"]["database"]["redis"];
             return new RedisManager($config["client"], $config);
-        });
-    }
-
-    /**
-     * 注册队列
-     */
-    protected function registerCache()
-    {
-        $this->app->bind("cache", function ($app) {
-            return $this->tap(new CacheManager($app), function ($manager) {
-                $manager->addConnector("redis", function () {
-                    return new RedisConnector($this->app["redis"]);
-                });
-            });
         });
     }
 
