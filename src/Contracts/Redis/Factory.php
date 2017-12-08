@@ -1,11 +1,12 @@
 <?php
 /**
- * User: zhangfengjin
- * Date: 2017/11/23
- * Time: 20:02
+ * Created by PhpStorm.
+ * User: fengjin1
+ * Date: 2017/12/8
+ * Time: 21:51
  */
 
-namespace XYLibrary\Support;
+namespace XYLibrary\Contracts\Redis;
 
 
 interface Factory
@@ -15,4 +16,5 @@ interface Factory
      * @return mixed
      */
     function connections($driver = "default");
+
 }
