@@ -21,6 +21,7 @@ class Bootstrap
 
     public function __construct()
     {
+        
         $this->app = new Container();
         Facade::setFacadeApplication($this->app);
     }
