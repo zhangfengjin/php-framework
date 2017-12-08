@@ -1,7 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: fengjin1
- * Date: 2017/12/8
- * Time: 21:39
- */
+if (!function_exists("tap")) {
+    function tap($value, $callback)
+    {
+        $callback($value);
+        return $value;
+    }
+}
+if (!function_exists("value")) {
+    function value($default)
+    {
+        return $default instanceof Closure ? $default() : $default;
+    }
+}
