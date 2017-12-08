@@ -8,10 +8,9 @@
 namespace XYLibrary\Support\Redis;
 
 
-use XYLibrary\Support\Factory;
 use XYLibrary\Support\Redis\Connectors\PredisConnector;
 
-class RedisManager implements Factory
+class RedisManager implements \XYLibrary\Contracts\Redis\Factory
 {
     protected $package;//第三方包
 
