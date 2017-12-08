@@ -5,13 +5,16 @@ $bootStrap = new \XYLibrary\Bootstrap\Bootstrap();
 $bootStrap->bootstrap();
 //获取项目容器
 $app = $bootStrap->getContainer();
-//注入到容器
+//注入
 $app->bind("test", function () {
     return new Test();
 });
 //解析类
 $app["test"]->fly();
 
+echo tap(123, function ($value) {
+    echo "asd";
+});
 
 class Test
 {
