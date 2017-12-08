@@ -20,6 +20,7 @@ class Bootstrap
     {
         $this->app = new Container();
         Facade::setFacadeApplication($this->app);
+        require_once __DIR__ . "/../Utils/helpers.php";
     }
 
     /**
@@ -85,17 +86,5 @@ class Bootstrap
             $config = $app["config"]["database"]["redis"];
             return new RedisManager($config["client"], $config);
         });
-    }
-
-    /**
-     * tap链方法
-     * @param $value
-     * @param $callback
-     * @return mixed
-     */
-    protected function tap($value, $callback)
-    {
-        $callback($value);
-        return $value;
     }
 }
