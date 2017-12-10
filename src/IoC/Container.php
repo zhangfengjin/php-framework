@@ -186,9 +186,12 @@ class Container implements \ArrayAccess
         // TODO: Implement offsetExists() method.
     }
 
-    function offsetSet($offset, $value)
+    function offsetSet($key, $value)
     {
         // TODO: Implement offsetSet() method.
+        $this->bind($key, $value instanceof \Closure ? $value : function () use ($value) {
+            return $value;
+        });
     }
 
     function offsetUnset($offset)
