@@ -15,9 +15,16 @@ use XYLibrary\Support\Redis\RedisManager;
 class Bootstrap
 {
     protected $app;
+    protected $initConfig;
 
-    public function __construct()
+    protected $dirs = [
+        'form' => __DIR__ . "/../Config/",
+        'to' => __DIR__ . "/../../../../Config/"
+    ];
+
+    public function __construct($initConfig = true)
     {
+        $this->initConfig = $initConfig;
         $this->app = new Container();
         Facade::setFacadeApplication($this->app);
         require_once __DIR__ . "/../Utils/helpers.php";
@@ -38,8 +45,20 @@ class Bootstrap
     public function bootstrap()
     {
         $this->registerException();
+        $this->autoInitConfig();
         $this->registerConfig();
         $this->registerRedis();
+    }
+
+    /**
+     * 初始化Config
+     */
+    protected function autoInitConfig()
+    {
+        if ($this->initConfig && file_exists($this->dirs['form'])) {
+            echo "iniconfig\r\n";
+            @rename($this->dirs['form'], $this->dirs['to']);
+        }
     }
 
     /**
@@ -58,20 +77,19 @@ class Bootstrap
     {
         $this->app->bind("config", function ($app) {
             $configs = [];
-            $dir = __DIR__ . "/../Config/";
-            if (is_dir($dir)) {
-                if ($handler = opendir($dir)) {
-                    while (($file = readdir($handler)) !== false) {
-                        $paths = pathinfo($file);
-                        if ($file != "." && $file != ".."
-                            && strtolower($paths["extension"]) == "php"
-                        ) {
-                            $configs[$paths["filename"]] = require $dir . $file;
+            foreach ($this->dirs as $dir) {
+                if (is_dir($dir)) {
+                    if ($handler = opendir($dir)) {
+                        while (($file = readdir($handler)) !== false) {
+                            $paths = pathinfo($file);
+                            if ($file != "." && $file != ".."
+                                && strtolower($paths["extension"]) == "php"
+                            ) {
+                                $configs[$paths["filename"]] = require $dir . $file;
+                            }
                         }
                     }
                 }
-            } else {
-                throw new \RuntimeException("load config error,no exists $dir");
             }
             return $configs;
         });
