@@ -70,9 +70,11 @@ class Bootstrap
                 $to = $this->dirs["to"];
                 if ($handler = opendir($form)) {
                     while (($file = readdir($handler)) !== false) {
-                        $toFile = $to . $file;
-                        if (!file_exists($toFile)) {
-                            @copy($form . $file, $toFile);
+                        if ($file != "." && $file != "..") {
+                            $toFile = $to . $file;
+                            if (!file_exists($toFile)) {
+                                @copy($form . $file, $toFile);
+                            }
                         }
                     }
                 }
