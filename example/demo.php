@@ -6,6 +6,9 @@ $bootStrap = new \XYLibrary\Bootstrap\Bootstrap(false);
 $bootStraps = [
     "test" => "Test"
 ];
+/*$bootStrap->setConfigDirs([
+    __DIR__ . "/Config/"
+]);*/
 $bootStrap->bootstrap($bootStraps);
 //获取项目容器
 $app = $bootStrap->getContainer();

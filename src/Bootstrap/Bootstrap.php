@@ -24,38 +24,11 @@ class Bootstrap
 
     public function __construct($initConfig = true)
     {
+        require_once __DIR__ . "/../Utils/helpers.php";
         $this->initConfig = $initConfig;
         $this->app = new Container();
         Facade::setFacadeApplication($this->app);
-        require_once __DIR__ . "/../Utils/helpers.php";
-    }
-
-    /**
-     * 获取容器对象
-     * @return IoC\Container
-     */
-    public function getContainer()
-    {
-        return $this->app;
-    }
-
-    /**
-     * 启动
-     */
-    public function bootstrap($bootStraps = [])
-    {
-        $this->app["app"] = $this->app;
-        $this->app[get_class($this->app)] = $this->app;
-        $this->registerException();
         $this->autoInitConfig();
-        $this->registerConfig();
-        $this->registerRedis();
-        foreach ($bootStraps as $abstract) {
-            $instance = $this->app[$abstract];
-            if (method_exists($instance, "register")) {
-                $instance->register();
-            }
-        }
     }
 
     /**
@@ -81,6 +54,43 @@ class Bootstrap
             }
         }
     }
+
+    /**
+     * 设置config加载路径
+     * @param array $dirs
+     */
+    public function setConfigDirs(array $dirs)
+    {
+        $this->dirs = array_merge($this->dirs, $dirs);
+    }
+
+    /**
+     * 获取容器对象
+     * @return IoC\Container
+     */
+    public function getContainer()
+    {
+        return $this->app;
+    }
+
+    /**
+     * 启动
+     */
+    public function bootstrap($bootStraps = [])
+    {
+        $this->app["app"] = $this->app;
+        $this->app[get_class($this->app)] = $this->app;
+        $this->registerException();
+        $this->registerConfig();
+        $this->registerRedis();
+        foreach ($bootStraps as $abstract) {
+            $instance = $this->app[$abstract];
+            if (method_exists($instance, "register")) {
+                $instance->register();
+            }
+        }
+    }
+
 
     /**
      * 注册错误
