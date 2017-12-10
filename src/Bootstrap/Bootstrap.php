@@ -42,12 +42,20 @@ class Bootstrap
     /**
      * 启动
      */
-    public function bootstrap()
+    public function bootstrap($bootStraps = [])
     {
+        $this->app["app"] = $this->app;
+        $this->app[get_class($this->app)] = $this->app;
         $this->registerException();
         $this->autoInitConfig();
         $this->registerConfig();
         $this->registerRedis();
+        foreach ($bootStraps as $abstract) {
+            $instance = $this->app[$abstract];
+            if (method_exists($instance, "register")) {
+                $instance->register();
+            }
+        }
     }
 
     /**
