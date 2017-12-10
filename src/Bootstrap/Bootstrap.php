@@ -41,6 +41,9 @@ class Bootstrap
             //@rename($this->dirs['form'], $this->dirs['to']);
             if (is_dir($form)) {
                 $to = $this->dirs["to"];
+                if (!file_exists($to)) {
+                    mkdir($to);
+                }
                 if ($handler = opendir($form)) {
                     while (($file = readdir($handler)) !== false) {
                         if ($file != "." && $file != "..") {
