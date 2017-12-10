@@ -56,7 +56,6 @@ class Bootstrap
     protected function autoInitConfig()
     {
         if ($this->initConfig && file_exists($this->dirs['form'])) {
-            echo "iniconfig\r\n";
             @rename($this->dirs['form'], $this->dirs['to']);
         }
     }
