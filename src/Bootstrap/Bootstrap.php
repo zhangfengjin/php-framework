@@ -55,8 +55,20 @@ class Bootstrap
      */
     protected function autoInitConfig()
     {
-        if ($this->initConfig && file_exists($this->dirs['form'])) {
-            @rename($this->dirs['form'], $this->dirs['to']);
+        $form = $this->dirs['form'];
+        if ($this->initConfig && file_exists($form)) {
+            //@rename($this->dirs['form'], $this->dirs['to']);
+            if (is_dir($form)) {
+                $to = $this->dirs["to"];
+                if ($handler = opendir($form)) {
+                    while (($file = readdir($handler)) !== false) {
+                        $toFile = $to . $file;
+                        if (!file_exists($toFile)) {
+                            @copy($form . $file, $toFile);
+                        }
+                    }
+                }
+            }
         }
     }
 
