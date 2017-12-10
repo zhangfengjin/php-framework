@@ -28,7 +28,6 @@ class Bootstrap
         $this->initConfig = $initConfig;
         $this->app = new Container();
         Facade::setFacadeApplication($this->app);
-        $this->autoInitConfig();
     }
 
     /**
@@ -66,6 +65,7 @@ class Bootstrap
      */
     public function bootstrap($bootStraps = [])
     {
+        $this->autoInitConfig();
         $this->app["app"] = $this->app;
         $this->app[get_class($this->app)] = $this->app;
         $this->registerException();
