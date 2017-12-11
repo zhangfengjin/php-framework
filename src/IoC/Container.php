@@ -11,9 +11,31 @@ namespace XYLibrary\IoC;
 
 class Container implements \ArrayAccess
 {
+    protected static $instance;
+
     protected $bindings;
 
     protected $instances;
+
+    private function __construct()
+    {
+    }
+
+    private function __clone()
+    {
+    }
+
+    /**
+     * 初始化
+     * @return mixed
+     */
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static();
+        }
+        return static::$instance;
+    }
 
     /**
      * 将实现绑定到容器
