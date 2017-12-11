@@ -26,7 +26,7 @@ class Bootstrap
     {
         require_once __DIR__ . "/../Utils/helpers.php";
         $this->initConfig = $initConfig;
-        $this->app = new Container();
+        $this->app = Container::getInstance();
         Facade::setFacadeApplication($this->app);
     }
 
