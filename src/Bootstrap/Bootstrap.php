@@ -11,6 +11,7 @@ use XYLibrary\Exception\ExceptionHandler;
 use XYLibrary\Facade\Facade;
 use XYLibrary\IoC\Container;
 use XYLibrary\Support\Redis\RedisManager;
+use XYLibrary\Utils\Filesystem;
 
 class Bootstrap
 {
@@ -69,6 +70,7 @@ class Bootstrap
         $this->app["app"] = $this->app;
         $this->app[get_class($this->app)] = $this->app;
         $this->registerException();
+        $this->registerFilesystem();
         $this->registerConfig();
         $this->registerRedis();
         foreach ($bootStraps as $abstract) {
@@ -122,6 +124,16 @@ class Bootstrap
         $this->app->bind("redis", function ($app) {
             $config = $app["config"]["database"]["redis"];
             return new RedisManager($config["client"], $config);
+        });
+    }
+
+    /**
+     *注册文件操作类
+     */
+    protected function registerFilesystem()
+    {
+        $this->app->bind("files", function ($app) {
+            return new Filesystem();
         });
     }
 }
