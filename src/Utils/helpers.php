@@ -1,4 +1,13 @@
 <?php
+if (!function_exists("app")) {
+    function app($abstract = null)
+    {
+        if (is_null($abstract)) {
+            return \XYLibrary\IoC\Container::getInstance();
+        }
+        return \XYLibrary\IoC\Container::getInstance()->make($abstract);
+    }
+}
 if (!function_exists("tap")) {
     function tap($value, $callback)
     {
